@@ -1,0 +1,26 @@
+# Laravel
+/backend/vendor/
+/backend/node_modules/
+/backend/public/build/
+/backend/public/hot
+/backend/storage/*.key
+/backend/.env
+/backend/.env.backup
+/backend/.phpunit.result.cache
+/backend/auth.json
+
+# Android / Gradle
+/mobile/.gradle/
+/mobile/build/
+/mobile/app/build/
+/mobile/local.properties
+/mobile/.idea/
+/mobile/captures/
+*.iml
+
+# Built APK copy (regenerated from source)
+/NotificationCatcher.apk
+
+# OS
+Thumbs.db
+.DS_Store
