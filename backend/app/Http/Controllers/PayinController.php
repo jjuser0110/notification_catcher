@@ -26,7 +26,7 @@ class PayinController extends Controller
         }
 
         return view('payins.index', [
-            'payins' => $query->paginate(30)->withQueryString(),
+            'payins' => $query->paginate(10)->withQueryString(),
             'status' => $status,
         ]);
     }

@@ -13,7 +13,7 @@ class BankSettingController extends Controller
     public function index(): View
     {
         return view('bank_settings.index', [
-            'settings' => BankSetting::with('bank', 'creator')->latest('id')->paginate(25),
+            'settings' => BankSetting::with('bank', 'creator')->latest('id')->paginate(10),
             'banks' => Bank::where('is_active', true)->orderBy('name')->get(),
         ]);
     }

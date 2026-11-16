@@ -20,6 +20,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    // Persist the signed-in user's light/dark theme choice.
+    Route::post('/preferences/theme', function (\Illuminate\Http\Request $request) {
+        $theme = $request->input('theme') === 'light' ? 'light' : 'dark';
+        $request->user()->forceFill(['theme' => $theme])->save();
+        return response()->json(['ok' => true, 'theme' => $theme]);
+    })->name('preferences.theme');
+
     // -- Users (one table, filtered by role) --------------------------------
     Route::get('/users/{role}', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{role}/create', [UserController::class, 'create'])->name('users.create');

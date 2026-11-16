@@ -26,7 +26,7 @@ class SettlementController extends Controller
         }
 
         return view('settlements.index', [
-            'settlements' => $query->paginate(25)->withQueryString(),
+            'settlements' => $query->paginate(10)->withQueryString(),
             'status' => $status,
             'canApprove' => $user->isStaffSide(),
         ]);

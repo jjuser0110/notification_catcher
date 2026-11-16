@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     protected $fillable = [
-        'name', 'username', 'email', 'password', 'role', 'parent_id', 'is_active',
+        'name', 'username', 'email', 'password', 'role', 'parent_id', 'is_active', 'theme',
         'last_login_at', 'payin_rate', 'payout_rate',
         'payin_wallet', 'payout_wallet', 'all_wallet', 'quota',
         'api_token', 'api_key',

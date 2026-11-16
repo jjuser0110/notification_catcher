@@ -12,7 +12,7 @@ class BankController extends Controller
 {
     public function index(): View
     {
-        return view('banks.index', ['banks' => Bank::withCount('bankSettings')->orderBy('name')->get()]);
+        return view('banks.index', ['banks' => Bank::withCount('bankSettings')->orderBy('name')->paginate(10)]);
     }
 
     public function store(Request $request): RedirectResponse

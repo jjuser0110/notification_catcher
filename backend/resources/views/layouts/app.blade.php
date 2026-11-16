@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Hpay')</title>
+    <script>
+        // Match the theme the user last chose, before first paint.
+        try { var t = localStorage.getItem('hpay_theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+    </script>
     <style>
         :root {
             --bg: #0f172a; --panel: #1e293b; --panel2: #273449;
             --line: #334155; --text: #e2e8f0; --muted: #94a3b8;
             --accent: #38bdf8; --green: #22c55e; --amber: #f59e0b;
             --sms: #a855f7; --notif: #38bdf8;
+        }
+        :root[data-theme="light"] {
+            --bg: #eef2f7; --panel: #ffffff; --panel2: #f3f6fb;
+            --line: #e2e8f0; --text: #0f1b2d; --muted: #5b7290;
+            --accent: #0ea5e9; --green: #16a34a; --amber: #d97706;
+            --sms: #9333ea; --notif: #0ea5e9;
         }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;

@@ -87,7 +87,7 @@ class DashboardController extends Controller
                 });
             })
             ->orderByDesc('received_at')
-            ->paginate(50)
+            ->paginate(10)
             ->withQueryString();
 
         $devices = Device::orderBy('name')->get();
