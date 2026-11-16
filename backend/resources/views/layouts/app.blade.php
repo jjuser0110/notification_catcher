@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Notification Catcher')</title>
+    <title>@yield('title', 'Hpay')</title>
     <style>
         :root {
             --bg: #0f172a; --panel: #1e293b; --panel2: #273449;
@@ -57,7 +57,7 @@
 <body>
     @auth
     <header>
-        <span class="brand">📡 Notification Catcher</span>
+        <span class="brand">Hpay</span>
         <nav>
             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Devices</a>
             <a href="{{ route('messages') }}" class="{{ request()->routeIs('messages') ? 'active' : '' }}">Messages</a>

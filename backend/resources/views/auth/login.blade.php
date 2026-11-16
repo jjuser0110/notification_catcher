@@ -3,8 +3,8 @@
 
 @section('content')
 <div style="max-width: 360px; margin: 60px auto;">
-    <h1 style="text-align:center; font-size:20px;">📡 Notification Catcher</h1>
-    <p class="muted" style="text-align:center; margin-bottom:24px;">Sign in to view your devices</p>
+    <h1 style="text-align:center; font-size:20px;">Hpay</h1>
+    <p class="muted" style="text-align:center; margin-bottom:24px;">Sign in to your account</p>
 
     <form method="POST" action="{{ url('/login') }}"
           style="background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:24px;">

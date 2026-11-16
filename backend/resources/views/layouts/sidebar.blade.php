@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'hPay') — hPay</title>
+    <title>@yield('title', 'Hpay') — Hpay</title>
     <style>
         :root {
             --bg:#0b1220; --panel:#131c2e; --panel2:#1b2740; --line:#273449;
@@ -86,16 +86,37 @@
         .page-head h1 { font-size:20px; margin:0; flex:1; }
         .inline-form { display:inline; }
         code.k { background:var(--panel2); padding:2px 7px; border-radius:6px; font-size:12px; color:var(--accent); word-break:break-all; }
-        @media (max-width:820px){ .sidebar{ width:64px; } .sidebar .brand{ font-size:0; padding:18px 0; text-align:center; }
-            .sidebar .brand span{ font-size:18px; } .nav .group{ font-size:0; padding:8px; } .nav a{ font-size:0; justify-content:center; padding:12px 0; }
-            .nav a .badge{ font-size:10px; } }
+        /* Tablet / phone: stack the sidebar into a scrollable top nav, keep labels, let tables scroll */
+        @media (max-width:820px){
+            .layout{ flex-direction:column; }
+            .sidebar{ width:100%; height:auto; position:sticky; top:0; z-index:10; flex-direction:column;
+                border-right:none; border-bottom:1px solid var(--line); }
+            .sidebar .brand{ padding:13px 16px; }
+            .nav{ display:flex; flex-wrap:nowrap; overflow-x:auto; padding:4px 8px; gap:2px;
+                -webkit-overflow-scrolling:touch; }
+            .nav .group{ display:none; }
+            .nav a{ border-left:none; border-bottom:3px solid transparent; white-space:nowrap;
+                padding:10px 12px; border-radius:8px 8px 0 0; gap:6px; }
+            .nav a.active{ border-left:none; border-bottom-color:var(--accent); }
+            .topbar{ padding:11px 16px; flex-wrap:wrap; gap:8px 12px; position:static; }
+            main.content{ padding:16px; }
+            .page-head{ flex-wrap:wrap; }
+            table{ display:block; max-width:100%; overflow-x:auto;
+                -webkit-overflow-scrolling:touch; }
+            .cards{ grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); }
+            .row > .field{ min-width:120px; }
+        }
+        @media (max-width:480px){
+            .cards{ grid-template-columns:1fr 1fr; }
+            main.content{ padding:12px; }
+        }
     </style>
 </head>
 <body>
 @php($u = auth()->user())
 <div class="layout">
     <aside class="sidebar">
-        <div class="brand"><span>h</span>Pay</div>
+        <div class="brand"><span>H</span>pay</div>
         <nav class="nav">
             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
 
