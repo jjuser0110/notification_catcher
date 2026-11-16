@@ -105,3 +105,69 @@ compileSdk 34, minSdk 24.
 - A phone shows as **Offline** in the dashboard after ~30 minutes of silence.
 - Reading notifications/SMS and sending them to a server is sensitive. Only install
   this on phones you own or have permission to monitor.
+
+---
+
+# hPay — Payment Gateway (payin / payout)
+
+The backend now also runs a role-based payin/payout gateway with a sidebar admin.
+Everything is reachable from the left sidebar after login.
+
+## Roles & who creates whom
+One `users` table, split in the sidebar under **Users** by a `role` column:
+
+| Role | Can create | Has rate? | Notes |
+|------|-----------|-----------|-------|
+| superadmin | admin, staff, customer | no | seeded from `.env`; edits Master Settings |
+| admin | staff, customer | no | |
+| staff | customer | no | |
+| customer *(agent)* | customer, merchant | yes | makes settlements; owns settlement banks |
+| merchant | — | yes | auto-gets API key + token; source of payins |
+
+Every user has `is_active`, `last_login_at`, `payin_wallet`, `payout_wallet`,
+`all_wallet`, `quota`. Creating a user needs only **username, name, password**
+(no email/phone). Passwords can be reset from the user's Edit page.
+
+## Rates
+Master Settings (superadmin) hold the bands:
+- **Payin**  — cost 100%, default 98%, max 95%  → assignable range **95–98%**
+- **Payout** — cost 0%,   default 2%,  max 5%   → assignable range **2–5%**
+
+When a parent creates/edits a customer or merchant it sets their rates, and the
+app enforces: within the master band **and** never better than the parent's own
+rate (so each level keeps a margin). A merchant's band follows its customer's rate.
+
+## Payin split
+When a payin is approved (manually by staff, or later via gateway callback), the
+amount is split up the chain and each user's `payin_wallet` is credited, with one
+`payin_logs` row each. Example — a 1000 payin for a merchant at 95%, under a
+sub-customer 96%, under a customer 97%, under superadmin (cost 100%):
+
+| User | Rate | Earns |
+|------|------|-------|
+| merchant | 95% | 950.00 (its funds) |
+| sub-customer | 96% | 10.00 |
+| customer | 97% | 10.00 |
+| superadmin | 100% | 30.00 |
+| **total** | | **1000.00** |
+
+## Settlement
+- A **customer (agent)** adds **Settlement Banks** (their own bank: holder, account no, bank).
+- **Settlements → New**: pick each merchant's payin and/or payout amount and a
+  settlement bank, submit. Funds are **held** (deducted from merchant wallets).
+- The sidebar **Settlements** badge shows the pending count.
+- Staff-side **Approve** (funds stay out) or **Reject** (funds refunded to merchants).
+
+## Merchant payin API
+```
+POST /api/pg/payin
+Headers: X-API-KEY: <merchant api_key>   X-API-TOKEN: <merchant api_token>
+Body (JSON): { "amount": 500, "reference_no": "R-1", "player": "john",
+               "callback_url": "...", "redirect_url": "..." }
+```
+Returns `transaction_no` + `status` (pending). A merchant finds its key/token on
+its Dashboard and Edit page.
+
+## Login
+Seeded superadmin comes from `backend/.env` (`ADMIN_USERNAME` / `ADMIN_PASSWORD`).
+Reset/add logins with `php artisan db:seed` or by creating users in the UI.

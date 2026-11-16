@@ -1,39 +1,34 @@
-@extends('layouts.app')
-@section('title', 'Devices')
+@extends('layouts.sidebar')
+@section('title', 'Dashboard')
 
 @section('content')
+<div class="page-head"><h1>Dashboard</h1></div>
+
 <div class="cards">
-    <div class="card"><div class="label">Phones</div><div class="value">{{ $stats['devices'] }}</div></div>
-    <div class="card"><div class="label">Online now</div><div class="value" style="color:var(--green)">{{ $stats['online'] }}</div></div>
-    <div class="card"><div class="label">Notifications</div><div class="value">{{ number_format($stats['notifications']) }}</div></div>
-    <div class="card"><div class="label">SMS</div><div class="value">{{ number_format($stats['sms']) }}</div></div>
+    <div class="card"><div class="label">Payin wallet</div><div class="value">{{ number_format($stats['payin_wallet'], 2) }}</div></div>
+    <div class="card"><div class="label">Payout wallet</div><div class="value">{{ number_format($stats['payout_wallet'], 2) }}</div></div>
+    <div class="card"><div class="label">All wallet</div><div class="value">{{ number_format($stats['all_wallet'], 2) }}</div></div>
+    <div class="card"><div class="label">Quota</div><div class="value">{{ number_format($stats['quota'], 2) }}</div></div>
 </div>
 
-<div class="section-title">Installed phones</div>
+<div class="cards">
+    @if(! $me->isMerchant())
+        <div class="card"><div class="label">Merchants</div><div class="value">{{ $stats['merchants'] }}</div></div>
+    @endif
+    @if($me->isStaffSide() || $me->isCustomer())
+        <div class="card"><div class="label">Customers</div><div class="value">{{ $stats['customers'] }}</div></div>
+    @endif
+    <div class="card"><div class="label">Payin today</div><div class="value">{{ number_format($stats['payin_today'], 2) }}</div></div>
+    <div class="card"><div class="label">Pending payins</div><div class="value">{{ $stats['pending_payins'] }}</div></div>
+    <div class="card"><div class="label">Pending settlements</div><div class="value" style="color:var(--amber)">{{ $stats['pending_settlements'] }}</div></div>
+</div>
 
-@if($devices->isEmpty())
-    <div class="card empty">No phones yet. Install the app and register with the enroll key.</div>
-@else
-<table>
-    <thead>
-        <tr>
-            <th>Status</th><th>Name</th><th>Device</th><th>Android</th>
-            <th>Messages</th><th>Last seen</th><th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($devices as $device)
-        <tr>
-            <td><span class="dot {{ $device->isOnline() ? 'on' : 'off' }}"></span>{{ $device->isOnline() ? 'Online' : 'Offline' }}</td>
-            <td><strong>{{ $device->name }}</strong></td>
-            <td class="muted">{{ $device->manufacturer }} {{ $device->model }}</td>
-            <td class="muted">{{ $device->android_version ? 'Android '.$device->android_version : '—' }}</td>
-            <td>{{ number_format($device->messages_count) }}</td>
-            <td class="muted">{{ $device->last_seen_at?->diffForHumans() ?? 'never' }}</td>
-            <td><a href="{{ route('messages', ['device' => $device->id]) }}">View →</a></td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+@if($me->isMerchant())
+<div class="panel">
+    <h2>Your API credentials</h2>
+    <p class="muted">Use these to create payins from your system (<code class="k">POST /api/pg/payin</code>).</p>
+    <div class="field"><label>X-API-KEY</label><code class="k">{{ $me->api_key }}</code></div>
+    <div class="field"><label>X-API-TOKEN</label><code class="k">{{ $me->api_token }}</code></div>
+</div>
 @endif
 @endsection

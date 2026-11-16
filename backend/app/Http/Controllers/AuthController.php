@@ -21,14 +21,18 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        // Only active users may sign in.
+        $credentials['is_active'] = 1;
+
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+            $request->user()->forceFill(['last_login_at' => now()])->save();
 
             return redirect()->intended('/');
         }
 
         return back()->withErrors([
-            'username' => 'The username or password is incorrect.',
+            'username' => 'The username or password is incorrect, or the account is disabled.',
         ])->onlyInput('username');
     }
 
