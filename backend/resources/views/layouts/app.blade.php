@@ -11,16 +11,16 @@
     </script>
     <style>
         :root {
-            --bg: #0f172a; --panel: #1e293b; --panel2: #273449;
-            --line: #334155; --text: #e2e8f0; --muted: #94a3b8;
-            --accent: #38bdf8; --green: #22c55e; --amber: #f59e0b;
-            --sms: #a855f7; --notif: #38bdf8;
+            --bg: #09090c; --panel: #141419; --panel2: #1c1c24;
+            --line: #282831; --text: #eceef2; --muted: #8a8a99;
+            --accent: #f5415f; --green: #34d399; --amber: #fbbf24;
+            --sms: #a855f7; --notif: #f5415f;
         }
         :root[data-theme="light"] {
-            --bg: #eef2f7; --panel: #ffffff; --panel2: #f3f6fb;
-            --line: #e2e8f0; --text: #0f1b2d; --muted: #5b7290;
-            --accent: #0ea5e9; --green: #16a34a; --amber: #d97706;
-            --sms: #9333ea; --notif: #0ea5e9;
+            --bg: #f4f5f8; --panel: #ffffff; --panel2: #f3f4f7;
+            --line: #e8eaee; --text: #14151c; --muted: #6b7280;
+            --accent: #e4002b; --green: #16a34a; --amber: #d97706;
+            --sms: #9333ea; --notif: #e4002b;
         }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -33,7 +33,7 @@
         header nav a { color: var(--muted); font-weight: 500; }
         header nav a.active { color: var(--text); }
         header form { margin: 0; }
-        .btn { background: var(--accent); color: #082f49; border: none; padding: 8px 14px;
+        .btn { background: var(--accent); color: #fff; border: none; padding: 8px 14px;
             border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; }
         .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--muted); }
         main { padding: 20px; max-width: 1200px; margin: 0 auto; }
@@ -59,7 +59,7 @@
         .pagination { margin-top: 16px; display: flex; gap: 6px; flex-wrap: wrap; }
         .pagination a, .pagination span { padding: 6px 10px; border: 1px solid var(--line);
             border-radius: 6px; color: var(--text); }
-        .pagination .active span { background: var(--accent); color: #082f49; border-color: var(--accent); }
+        .pagination .active span { background: var(--accent); color: #fff; border-color: var(--accent); }
         .section-title { font-size: 15px; font-weight: 600; margin: 24px 0 12px; }
         .empty { text-align: center; color: var(--muted); padding: 40px; }
     </style>
