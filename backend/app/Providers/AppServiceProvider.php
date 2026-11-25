@@ -14,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Load UI helpers (e.g. hpayIcon) without relying on composer's
+        // "files" autoload, so they work even when dump-autoload has not
+        // been re-run on the server. The file is guarded with function_exists.
+        require_once app_path('Support/helpers.php');
     }
 
     /**
