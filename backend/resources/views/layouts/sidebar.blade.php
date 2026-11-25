@@ -57,8 +57,26 @@
         .bell-dot { position:absolute; top:9px; right:10px; width:7px; height:7px; border-radius:50%;
             background:var(--accent); border:2px solid var(--topbar); }
         .avatar { width:38px; height:38px; border-radius:50%; flex:none; display:flex; align-items:center;
-            justify-content:center; font-weight:800; font-size:13px; color:#fff; letter-spacing:.3px;
-            background:var(--grad-active); box-shadow:0 4px 12px rgba(225,0,43,.35); }
+            justify-content:center; font-weight:800; font-size:13px; color:#fff; letter-spacing:.3px; border:none;
+            cursor:pointer; padding:0; background:var(--grad-active); box-shadow:0 4px 12px rgba(225,0,43,.35); }
+        .avatar:hover { filter:brightness(1.05); }
+        .profile { position:relative; }
+        .profile-menu { position:absolute; top:calc(100% + 10px); right:0; width:236px; background:var(--panel);
+            border:1px solid var(--line); border-radius:15px; box-shadow:var(--shadow); padding:7px; z-index:60;
+            opacity:0; visibility:hidden; transform:translateY(-6px); transition:opacity .15s,transform .15s,visibility .15s; }
+        .profile.open .profile-menu { opacity:1; visibility:visible; transform:none; }
+        .pm-head { display:flex; align-items:center; gap:11px; padding:9px 10px 12px; border-bottom:1px solid var(--line); margin-bottom:6px; }
+        .pm-av { width:40px; height:40px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:13px; color:#fff; background:var(--grad-active); }
+        .pm-name { font-weight:700; font-size:13.5px; }
+        .pm-role { color:var(--muted); font-size:11.5px; margin-top:2px; }
+        .profile-menu form { margin:0; }
+        .pm-item { display:flex; align-items:center; gap:11px; width:100%; text-align:left; background:none; border:none;
+            cursor:pointer; padding:10px 11px; border-radius:10px; color:var(--text); font-size:13.5px; font-weight:600; font-family:inherit; }
+        .pm-item:hover { background:var(--panel2); }
+        .pm-item svg { width:17px; height:17px; }
+        .pm-item.danger { color:var(--accent); }
+        .pm-item.danger:hover { background:var(--accent-soft); }
         #themeToggle .sun { display:none; }
         :root[data-theme="light"] #themeToggle .sun { display:block; }
         :root[data-theme="light"] #themeToggle .moon { display:none; }
@@ -66,7 +84,15 @@
         /* ---- Sidebar ---- */
         .sidebar { position:fixed; top:var(--topbar-h); left:0; bottom:0; width:var(--sidebar-w);
             background:var(--sidebar); border-right:1px solid var(--line); overflow-y:auto; z-index:30;
-            transition:width .2s ease, transform .2s ease; display:flex; flex-direction:column; }
+            transition:width .2s ease, transform .2s ease; display:flex; flex-direction:column;
+            scrollbar-width:thin; scrollbar-color:transparent transparent; }
+        .sidebar:hover { scrollbar-color:var(--line) transparent; }
+        .sidebar::-webkit-scrollbar { width:8px; }
+        .sidebar::-webkit-scrollbar-track { background:transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background:transparent; border-radius:999px;
+            border:2px solid transparent; background-clip:content-box; transition:background .2s; }
+        .sidebar:hover::-webkit-scrollbar-thumb { background:var(--line); background-clip:content-box; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background:var(--muted); background-clip:content-box; }
         .brand { padding:20px 20px 10px; }
         .brand .logo { font-size:25px; font-weight:900; font-style:italic; letter-spacing:-.5px; color:var(--accent); }
         .brand .logo b { color:var(--text); font-style:normal; }
@@ -227,10 +253,28 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 1112 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 004 0"/></svg>
         @if(($sidebarPending ?? 0) > 0)<span class="bell-dot"></span>@endif
     </button>
-    <div class="avatar" title="{{ $u->name }}">{{ $initials }}</div>
-    <form method="POST" action="{{ route('logout') }}" class="inline-form">@csrf
-        <button class="btn ghost sm" type="submit">Log out</button>
-    </form>
+    <div class="profile" id="profile">
+        <button type="button" class="avatar" id="profileBtn" aria-haspopup="true" aria-expanded="false" title="{{ $u->name }}">{{ $initials }}</button>
+        <div class="profile-menu" id="profileMenu" role="menu">
+            <div class="pm-head">
+                <div class="pm-av">{{ $initials }}</div>
+                <div>
+                    <div class="pm-name">{{ $u->name }}</div>
+                    <div class="pm-role">{{ $u->roleLabel() }} workspace</div>
+                </div>
+            </div>
+            <a href="{{ route('profile.edit') }}" class="pm-item" role="menuitem">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3.5"/><path d="M14 7l6 0M14 7l0 4l-2 0M17 7l0 2"/><path d="M3 20c0-3 2.5-5 5-5s5 2 5 5"/></svg>
+                Change password
+            </a>
+            <form method="POST" action="{{ route('logout') }}">@csrf
+                <button type="submit" class="pm-item danger" role="menuitem">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12H4m0 0l4-4m-4 4l4 4"/><path d="M11 4h7a1 1 0 011 1v14a1 1 0 01-1 1h-7"/></svg>
+                    Log out
+                </button>
+            </form>
+        </div>
+    </div>
 </header>
 
 <aside class="sidebar" id="sidebar">
@@ -344,6 +388,23 @@
 
     var overlay = document.getElementById('overlay');
     if (overlay) overlay.addEventListener('click', function () { body.classList.remove('nav-open'); });
+
+    // Profile dropdown (avatar) — Change password / Log out.
+    var profile = document.getElementById('profile');
+    var profileBtn = document.getElementById('profileBtn');
+    if (profile && profileBtn) {
+        profileBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var open = profile.classList.toggle('open');
+            profileBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.addEventListener('click', function (e) {
+            if (!profile.contains(e.target)) { profile.classList.remove('open'); profileBtn.setAttribute('aria-expanded', 'false'); }
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') { profile.classList.remove('open'); profileBtn.setAttribute('aria-expanded', 'false'); }
+        });
+    }
 
     var themeUrl = "{{ route('preferences.theme') }}";
     var csrf = document.querySelector('meta[name=csrf-token]').getAttribute('content');

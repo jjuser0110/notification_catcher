@@ -6,6 +6,7 @@ use App\Http\Controllers\BankSettingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterSettingController;
 use App\Http\Controllers\PayinController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettlementBankController;
 use App\Http\Controllers\SettlementController;
 use App\Http\Controllers\UserController;
@@ -19,6 +20,10 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Own profile + change password.
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
     // Persist the signed-in user's light/dark theme choice.
     Route::post('/preferences/theme', function (\Illuminate\Http\Request $request) {
