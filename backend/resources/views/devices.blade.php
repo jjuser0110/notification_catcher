@@ -19,13 +19,13 @@
     <tbody>
         @foreach($devices as $d)
         <tr>
-            <td><span class="tag {{ $d->isOnline() ? 'on' : 'off' }}">{{ $d->isOnline() ? 'Online' : 'Offline' }}</span></td>
-            <td><strong>{{ $d->name }}</strong></td>
-            <td class="muted">{{ $d->manufacturer }} {{ $d->model }}</td>
-            <td class="muted">{{ $d->android_version ? 'Android '.$d->android_version : '—' }}</td>
-            <td class="right">{{ number_format($d->messages_count) }}</td>
-            <td class="muted">{{ $d->last_seen_at?->diffForHumans() ?? 'never' }}</td>
-            <td class="right"><a href="{{ route('messages', ['device' => $d->id]) }}" class="btn ghost sm">View</a></td>
+            <td data-label="Status"><span class="tag {{ $d->isOnline() ? 'on' : 'off' }}">{{ $d->isOnline() ? 'Online' : 'Offline' }}</span></td>
+            <td data-label="Name"><strong>{{ $d->name }}</strong></td>
+            <td data-label="Device" class="muted">{{ $d->manufacturer }} {{ $d->model }}</td>
+            <td data-label="Android" class="muted">{{ $d->android_version ? 'Android '.$d->android_version : '—' }}</td>
+            <td data-label="Messages" class="right">{{ number_format($d->messages_count) }}</td>
+            <td data-label="Last seen" class="muted">{{ $d->last_seen_at?->diffForHumans() ?? 'never' }}</td>
+            <td class="right actions"><a href="{{ route('messages', ['device' => $d->id]) }}" class="btn ghost sm">View</a></td>
         </tr>
         @endforeach
     </tbody>

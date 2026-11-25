@@ -27,16 +27,16 @@
     <tbody>
         @foreach($settlements as $s)
         <tr>
-            <td>#{{ $s->id }}</td>
-            <td>{{ $s->user->username }}</td>
-            <td>{{ $s->settlementBank?->bank?->name ?? '—' }}<div class="muted">{{ $s->settlementBank?->account_no }}</div></td>
-            <td class="right">{{ number_format($s->payin_amount,2) }}</td>
-            <td class="right">{{ number_format($s->payout_amount,2) }}</td>
-            <td class="right"><strong>{{ number_format($s->total_amount,2) }}</strong></td>
-            <td class="muted">{{ $s->items->count() }}</td>
-            <td><span class="tag {{ $s->status }}">{{ ucfirst($s->status) }}</span></td>
-            <td class="muted">{{ $s->created_at->diffForHumans() }}</td>
-            <td class="right" style="white-space:nowrap;">
+            <td data-label="#">#{{ $s->id }}</td>
+            <td data-label="Agent">{{ $s->user->username }}</td>
+            <td data-label="To bank">{{ $s->settlementBank?->bank?->name ?? '—' }}<div class="muted">{{ $s->settlementBank?->account_no }}</div></td>
+            <td data-label="Payin" class="right">{{ number_format($s->payin_amount,2) }}</td>
+            <td data-label="Payout" class="right">{{ number_format($s->payout_amount,2) }}</td>
+            <td data-label="Total" class="right"><strong>{{ number_format($s->total_amount,2) }}</strong></td>
+            <td data-label="Merchants" class="muted">{{ $s->items->count() }}</td>
+            <td data-label="Status"><span class="tag {{ $s->status }}">{{ ucfirst($s->status) }}</span></td>
+            <td data-label="Submitted" class="muted">{{ $s->created_at->diffForHumans() }}</td>
+            <td class="right actions" style="white-space:nowrap;">
                 @if($canApprove && $s->status === 'pending')
                 <form method="POST" action="{{ route('settlements.approve', $s) }}" class="inline-form">@csrf
                     <button class="btn sm green">Approve</button></form>

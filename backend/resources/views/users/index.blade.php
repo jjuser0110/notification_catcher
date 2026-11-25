@@ -27,18 +27,18 @@
     <tbody>
         @foreach($users as $user)
         <tr>
-            <td><strong>{{ $user->username }}</strong></td>
-            <td>{{ $user->name }}</td>
-            <td class="muted">{{ $user->parent?->username ?? '—' }}</td>
+            <td data-label="Username"><strong>{{ $user->username }}</strong></td>
+            <td data-label="Name">{{ $user->name }}</td>
+            <td data-label="Parent" class="muted">{{ $user->parent?->username ?? '—' }}</td>
             @if($hasRate)
-                <td class="right">{{ $user->payin_rate !== null ? number_format($user->payin_rate,2) : '—' }}</td>
-                <td class="right">{{ $user->payout_rate !== null ? number_format($user->payout_rate,2) : '—' }}</td>
+                <td data-label="Payin %" class="right">{{ $user->payin_rate !== null ? number_format($user->payin_rate,2) : '—' }}</td>
+                <td data-label="Payout %" class="right">{{ $user->payout_rate !== null ? number_format($user->payout_rate,2) : '—' }}</td>
             @endif
-            <td class="right">{{ number_format($user->payin_wallet,2) }}</td>
-            <td class="right">{{ number_format($user->payout_wallet,2) }}</td>
-            <td><span class="tag {{ $user->is_active ? 'on' : 'off' }}">{{ $user->is_active ? 'Active' : 'Disabled' }}</span></td>
-            <td class="muted">{{ $user->last_login_at?->diffForHumans() ?? 'never' }}</td>
-            <td class="right" style="white-space:nowrap;">
+            <td data-label="Payin wallet" class="right">{{ number_format($user->payin_wallet,2) }}</td>
+            <td data-label="Payout wallet" class="right">{{ number_format($user->payout_wallet,2) }}</td>
+            <td data-label="Status"><span class="tag {{ $user->is_active ? 'on' : 'off' }}">{{ $user->is_active ? 'Active' : 'Disabled' }}</span></td>
+            <td data-label="Last login" class="muted">{{ $user->last_login_at?->diffForHumans() ?? 'never' }}</td>
+            <td class="right actions" style="white-space:nowrap;">
                 <a href="{{ route('users.edit', $user) }}" class="btn ghost sm">Edit</a>
                 <form method="POST" action="{{ route('users.toggle', $user) }}" class="inline-form">@csrf
                     <button class="btn sm {{ $user->is_active ? 'danger' : 'green' }}">{{ $user->is_active ? 'Disable' : 'Enable' }}</button>

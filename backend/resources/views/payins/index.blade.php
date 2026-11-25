@@ -25,15 +25,15 @@
     <tbody>
         @foreach($payins as $p)
         <tr>
-            <td><a href="{{ route('payins.show', $p) }}">{{ $p->transaction_no }}</a>
+            <td data-label="Txn No"><a href="{{ route('payins.show', $p) }}">{{ $p->transaction_no }}</a>
                 @if($p->reference_no)<div class="muted">{{ $p->reference_no }}</div>@endif</td>
-            <td>{{ $p->merchant->username }}</td>
-            <td class="right">{{ number_format($p->amount,2) }}</td>
-            <td class="right">{{ $p->rate !== null ? number_format($p->rate,2) : '—' }}</td>
-            <td class="right">{{ $p->nett_amount !== null ? number_format($p->nett_amount,2) : '—' }}</td>
-            <td><span class="tag {{ $p->status }}">{{ ucfirst($p->status) }}</span></td>
-            <td class="muted">{{ $p->created_at->diffForHumans() }}</td>
-            <td class="right">
+            <td data-label="Merchant">{{ $p->merchant->username }}</td>
+            <td data-label="Amount" class="right">{{ number_format($p->amount,2) }}</td>
+            <td data-label="Rate" class="right">{{ $p->rate !== null ? number_format($p->rate,2) : '—' }}</td>
+            <td data-label="Nett" class="right">{{ $p->nett_amount !== null ? number_format($p->nett_amount,2) : '—' }}</td>
+            <td data-label="Status"><span class="tag {{ $p->status }}">{{ ucfirst($p->status) }}</span></td>
+            <td data-label="Created" class="muted">{{ $p->created_at->diffForHumans() }}</td>
+            <td class="right actions">
                 @if($p->status === 'pending' && auth()->user()->isStaffSide())
                 <form method="POST" action="{{ route('payins.approve', $p) }}" class="inline-form">@csrf
                     <button class="btn sm green">Approve</button></form>

@@ -168,6 +168,27 @@
         }
         @media (max-width:560px) { .crumb .sep.first { display:none; } }
 
+        /* ---- Responsive tables: stack each row into a card on phones ---- */
+        @media (max-width:640px) {
+            table { display:block; width:100%; border:none; background:transparent; box-shadow:none; overflow:visible; }
+            table thead { display:none; }
+            table tbody { display:block; }
+            table tr { display:block; background:var(--panel); border:1px solid var(--line); border-radius:14px;
+                box-shadow:var(--shadow); padding:4px 15px; margin-bottom:12px; }
+            table td { display:block; width:auto; text-align:left !important; padding:9px 0;
+                border-bottom:1px solid var(--line); white-space:normal; }
+            table tr td:last-child { border-bottom:none; }
+            table td::before { content:attr(data-label); display:block; color:var(--muted); font-size:11px;
+                font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px; }
+            table td:not([data-label])::before, table td[data-label=""]::before { display:none; }
+            table td.actions { display:flex; flex-wrap:wrap; gap:8px; padding-top:12px; }
+            table td.actions .inline-form { margin:0; }
+            table td input[type=text], table td input[type=number], table td select { width:100%; max-width:100%; }
+            .page-head { flex-wrap:wrap; }
+            .page-head h1 { flex:1 1 100%; }
+            .page-head .inline-form, .page-head .inline-form input, .page-head select, .page-head .btn { max-width:100%; }
+        }
+
         /* ---- Hero + stat cards ---- */
         .hero { background:var(--grad-hero); border:1px solid var(--hero-border); border-radius:20px;
             padding:24px 26px; margin-bottom:18px; color:var(--hero-text); box-shadow:var(--shadow); position:relative; overflow:hidden; }
@@ -307,6 +328,11 @@
                 {!! hpayIcon('bank') !!}<span class="label">Settlement Banks</span>
             </a>
         @endif
+        @if($u->isStaffSide())
+            <a href="{{ route('bank_settings.index') }}" class="nav-link {{ request()->routeIs('bank_settings.*') ? 'active' : '' }}" title="Bank Accounts">
+                {!! hpayIcon('card') !!}<span class="label">Bank Accounts</span>
+            </a>
+        @endif
 
         @if($u->isSuperadmin() || $u->isAdmin() || $u->isStaffSide() || $u->isCustomer())
             <div class="nav-group">Users</div>
@@ -335,16 +361,13 @@
             <a href="{{ route('banks.index') }}" class="nav-link {{ request()->routeIs('banks.*') ? 'active' : '' }}" title="Banks">
                 {!! hpayIcon('bank') !!}<span class="label">Banks</span>
             </a>
-            <a href="{{ route('bank_settings.index') }}" class="nav-link {{ request()->routeIs('bank_settings.*') ? 'active' : '' }}" title="Bank Accounts">
-                {!! hpayIcon('card') !!}<span class="label">Bank Accounts</span>
-            </a>
             @if($u->isSuperadmin())
                 <a href="{{ route('master_settings.edit') }}" class="nav-link {{ request()->routeIs('master_settings.*') ? 'active' : '' }}" title="Master Settings">
                     {!! hpayIcon('sliders') !!}<span class="label">Master Settings</span>
                 </a>
             @endif
 
-            <div class="nav-group">Notification Catcher</div>
+            <div class="nav-group">Device Setup</div>
             <a href="{{ route('devices') }}" class="nav-link {{ request()->routeIs('devices') ? 'active' : '' }}" title="Devices">
                 {!! hpayIcon('phone') !!}<span class="label">Devices</span>
             </a>

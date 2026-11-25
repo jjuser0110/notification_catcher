@@ -29,20 +29,20 @@
     <tbody>
         @foreach($messages as $message)
         <tr>
-            <td><span class="tag {{ $message->type === 'sms' ? 'approved' : 'on' }}">{{ $message->type === 'sms' ? 'SMS' : 'Notif' }}</span></td>
-            <td>{{ $message->device->name }}</td>
-            <td>
+            <td data-label="Type"><span class="tag {{ $message->type === 'sms' ? 'approved' : 'on' }}">{{ $message->type === 'sms' ? 'SMS' : 'Notif' }}</span></td>
+            <td data-label="Phone">{{ $message->device->name }}</td>
+            <td data-label="App / Sender">
                 @if($message->type === 'sms')
                     <strong>{{ $message->sender ?: 'Unknown' }}</strong>
                 @else
                     <strong>{{ $message->app_name ?: $message->app_package }}</strong>
                 @endif
             </td>
-            <td>
+            <td data-label="Content">
                 @if($message->title)<strong>{{ $message->title }}</strong><br>@endif
                 <span class="muted">{{ \Illuminate\Support\Str::limit($message->body, 200) }}</span>
             </td>
-            <td class="muted" title="{{ $message->received_at }}">{{ $message->received_at->diffForHumans() }}</td>
+            <td data-label="Received" class="muted" title="{{ $message->received_at }}">{{ $message->received_at->diffForHumans() }}</td>
         </tr>
         @endforeach
     </tbody>

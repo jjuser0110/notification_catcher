@@ -20,12 +20,12 @@
         @foreach($banks as $bank)
         <tr>
             <form method="POST" action="{{ route('banks.update', $bank) }}">@csrf @method('PUT')
-            <td><input type="text" name="name" value="{{ $bank->name }}" style="width:180px;"></td>
-            <td><input type="text" name="code" value="{{ $bank->code }}" style="width:90px;"></td>
-            <td class="right muted">{{ $bank->bank_settings_count }}</td>
-            <td><label style="display:flex;align-items:center;gap:6px;margin:0;">
+            <td data-label="Name"><input type="text" name="name" value="{{ $bank->name }}" style="width:180px;"></td>
+            <td data-label="Code"><input type="text" name="code" value="{{ $bank->code }}" style="width:90px;"></td>
+            <td data-label="Accounts" class="right muted">{{ $bank->bank_settings_count }}</td>
+            <td data-label="Status"><label style="display:flex;align-items:center;gap:6px;margin:0;">
                 <input type="checkbox" name="is_active" value="1" @checked($bank->is_active) style="width:auto;"> Active</label></td>
-            <td class="right"><button class="btn sm">Save</button></td>
+            <td class="right actions"><button class="btn sm">Save</button></td>
             </form>
         </tr>
         @endforeach

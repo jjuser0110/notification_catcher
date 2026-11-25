@@ -30,11 +30,11 @@
     <tbody>
         @foreach($settlementBanks as $sb)
         <tr>
-            <td>{{ $sb->bank->name }}</td>
-            <td>{{ $sb->fullname }}</td>
-            <td>{{ $sb->account_no }}</td>
-            <td><span class="tag {{ $sb->is_active ? 'on' : 'off' }}">{{ $sb->is_active ? 'Active' : 'Off' }}</span></td>
-            <td class="right">
+            <td data-label="Bank">{{ $sb->bank->name }}</td>
+            <td data-label="Account name">{{ $sb->fullname }}</td>
+            <td data-label="Account no">{{ $sb->account_no }}</td>
+            <td data-label="Status"><span class="tag {{ $sb->is_active ? 'on' : 'off' }}">{{ $sb->is_active ? 'Active' : 'Off' }}</span></td>
+            <td class="right actions">
                 <form method="POST" action="{{ route('settlement_banks.destroy', $sb) }}" class="inline-form">
                     @csrf @method('DELETE')
                     <button class="btn sm danger" onclick="return confirm('Remove this bank?')">Remove</button>

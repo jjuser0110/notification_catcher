@@ -34,13 +34,13 @@
     <tbody>
         @foreach($settings as $s)
         <tr>
-            <td>{{ $s->bank?->name ?? '—' }}</td>
-            <td>{{ $s->account_no }}</td>
-            <td>{{ $s->fullname }}</td>
-            <td class="right">{{ number_format($s->amount,2) }}</td>
-            <td class="muted">{{ $s->for_payin ? 'Payin' : '' }} {{ $s->for_payout ? 'Payout' : '' }}</td>
-            <td><span class="tag {{ $s->is_active ? 'on' : 'off' }}">{{ $s->is_active ? 'Active' : 'Off' }}</span></td>
-            <td class="muted">{{ $s->creator?->username ?? '—' }}</td>
+            <td data-label="Bank">{{ $s->bank?->name ?? '—' }}</td>
+            <td data-label="Account">{{ $s->account_no }}</td>
+            <td data-label="Holder">{{ $s->fullname }}</td>
+            <td data-label="Amount" class="right">{{ number_format($s->amount,2) }}</td>
+            <td data-label="Use" class="muted">{{ $s->for_payin ? 'Payin' : '' }} {{ $s->for_payout ? 'Payout' : '' }}</td>
+            <td data-label="Status"><span class="tag {{ $s->is_active ? 'on' : 'off' }}">{{ $s->is_active ? 'Active' : 'Off' }}</span></td>
+            <td data-label="By" class="muted">{{ $s->creator?->username ?? '—' }}</td>
         </tr>
         @endforeach
     </tbody>
